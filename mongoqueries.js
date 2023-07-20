@@ -1,0 +1,37 @@
+mongosh
+
+use restaurants
+
+db.rest.find()
+db.rest.find({},{restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({},{_id:false,restaurant_id:true,name:true,borough:true,address:{zipcode:true}})
+db.rest.find({borough:"Bronx"})
+db.rest.find({borough:"Bronx"}).limit(5)
+db.rest.find({borough:"Bronx"}).skip(5).limit(5)
+db.rest.find({"grades.score":{$gt:90}})
+db.rest.find({$and: [{"grades.score":{$gt:80}}, {"grades.score":{$lt:100}}]})
+db.rest.find({"address.coord":{$lt:-95.754168}})    
+db.rest.find({$and: [{"grades.score":{$gt:70}}, {"address.coord":{$lt:-65.754168}},{cuisine:{$ne:"American "}}]})
+db.rest.find({"grades.score":{$gt:70},"address.coord":{$lt:-65.754168},cuisine:{$ne:"American "}})
+db.rest.find({cuisine:{$ne:"American "},borough:{$ne:"Brooklyn"},"grades.grade":"A"}).sort({cuisine:-1})
+db.rest.find({name:/^Wil/},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({name:/ces$/},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({name:{$regex:/reg/,$options:"i"}},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({$and:[{$or:[{cuisine:"American "}, {cuisine: "Chinese"}]}, {borough:"Bronx"}]})
+db.rest.find({$or:[{borough:"Staten Island"},{borough:"Queens"},{borough:"Bronx"},{borough:"Brooklyn"}]},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({$nor:[{borough:"Staten Island"},{borough:"Queens"},{borough:"Bronx"},{borough:"Brooklyn"}]},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true})
+db.rest.find({"grades.score":{$lte:10}})
+db.rest.find({$or:[{$and:[{cuisine:{$ne:"American "}}, {cuisine:{$ne:"Chinese"}}]}, {name:/^Wil/}]},{_id:false,restaurant_id:true,name:true,borough:true,cuisine:true}) -- // aqui no sabia como quitar resultados que venden pescado, no hay variable o algo que lo indica a menos que esta en el nombre del restaurante. pero ahi iria la pregunta de si es fishery, fish, seafood, etc
+db.rest.find({$and:[{"grades.grade":"A"},{"grades.score":11},{"grades.date":{$in:[ISODate("2014-08-11T00:00:00Z")]}}]},{_id:false,restaurant_id:true,name:true,grades:true})
+db.rest.find({$and:[{"grades.1.grade":"A"},{"grades.1.score":9},{"grades.1.date":{$in:[ISODate("2014-08-11T00:00:00Z")]}}]},{_id:false,restaurant_id:true,name:true,grades:true})
+db.rest.find({"address.coord.1":{$gt:42,$lte:52}},{_id:false,restaurant_id:true,name:true,address:true})
+db.rest.find().sort({name:1})
+db.rest.find().sort({name:-1})
+db.rest.find().sort({cuisine:1, borough:-1})
+db.rest.find({"address.street":null})
+db.rest.find({"address.coord":{$type: "double"}})
+db.rest.find({"grades.score":{$mod:[7,0]}},{_id:false,restaurant_id:true,name:true,grades:true})
+db.rest.find({name:{$regex:/mon/,$options:"i"}},{_id:false,name:true,borough:true,coord:true,cuisine:true})
+db.rest.find({name:/^Mad/},{_id:false,name:true,borough:true,coord:true,cuisine:true})
+ 
